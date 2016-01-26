@@ -26,16 +26,12 @@ public:
     ~MainWindow();
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent* event);
 
 private slots:
     void on_actionExit_triggered();
-
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
 
 private:
     void readSettings();

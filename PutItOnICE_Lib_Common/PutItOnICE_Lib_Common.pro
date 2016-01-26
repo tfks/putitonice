@@ -6,7 +6,6 @@
 
 QT       -= gui
 
-#TARGET = PutItOnICE_Lib_Common
 TARGET = $$OUT_PWD/../PutItOnICE/lib/onicecommon
 TEMPLATE = lib
 

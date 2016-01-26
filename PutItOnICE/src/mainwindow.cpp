@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mdiArea = new IceMdiArea(this);
 
     QString homeLocation = QStandardPaths::locate(QStandardPaths::HomeLocation, QString(), QStandardPaths::LocateDirectory);
-    QString path = homeLocation + ".local/share/wallpapers/98258-clear_skies1920x1200.jpg";
+    QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
 
     this->mdiArea->setBackgroundImage(path);
 
@@ -105,16 +105,6 @@ void MainWindow::writeSettings()
 }
 
 void MainWindow::on_actionExit_triggered()
-{
-    this->close();
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    //this->close();
-}
-
-void MainWindow::on_pushButton_2_clicked()
 {
     this->close();
 }

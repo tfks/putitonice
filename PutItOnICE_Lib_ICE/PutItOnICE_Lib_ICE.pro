@@ -6,7 +6,6 @@
 
 QT       -= gui
 
-#TARGET = PutItOnICE_Lib_ICE
 TARGET = $$OUT_PWD/../PutItOnICE/lib/onicecomm
 TEMPLATE = lib
 
@@ -29,8 +28,7 @@ unix: PKGCONFIG += nice
 
 
 unix {
-    #target.path = /usr/lib
-    target.path = %{buildDir}/lib
+    target.path = /usr/lib
     INSTALLS += target
 }
 
