@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/mainwindow">
+        <file alias="mainmenubutton_p">Graphics/MainMenuButton_p.png</file>
+        <file alias="mainmenubutton_h">Graphics/MainMenuButton_h.png</file>
+        <file alias="mainmenubutton">Graphics/MainMenuButton.png</file>
+    </qresource>
+</RCC>
