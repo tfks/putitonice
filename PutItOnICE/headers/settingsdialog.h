@@ -1,22 +1,22 @@
-#ifndef SETINGSDIALOG_H
-#define SETINGSDIALOG_H
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
 
 #include <QDialog>
 
 namespace Ui {
-class SetingsDialog;
+class SettingsDialog;
 }
 
-class SetingsDialog : public QDialog
+class SettingsDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SetingsDialog(QWidget *parent = 0);
-    ~SetingsDialog();
+    explicit SettingsDialog(QWidget *parent = 0);
+    ~SettingsDialog();
 
 private:
-    Ui::SetingsDialog *ui;
+    Ui::SettingsDialog *ui;
 };
 
-#endif // SETINGSDIALOG_H
+#endif // SETTINGSDIALOG_H
