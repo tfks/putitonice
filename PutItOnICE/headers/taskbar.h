@@ -2,6 +2,7 @@
 #define TASKBAR_H
 
 #include <QWidget>
+#include <QMainWindow>
 #include <QPushButton>
 
 class TaskBar : public QWidget
@@ -14,9 +15,14 @@ public:
     void UpdateGeometry(int x, int y, int w, int h);
     void UpdateGeometry(QWidget *widget);
 
-signals:
+    QRect getGeometry();
+    void updatePosition(QRect taskBarGeometry);
 
-public slots:
+signals:
+    void signal_mainMenuButtonHasBeenClicked(bool checkedState);
+
+private slots:
+    void slot_mainMenuButtonClicked(bool checkedState);
 
 protected:
     void resizeEvent(QResizeEvent* event);
@@ -24,6 +30,10 @@ protected:
 private:
     QWidget *parentWidget;
     QPushButton *mainMenuButton;
+
+    QMainWindow *mainWidget;
+
+    void setMainWidget(QMainWindow *widget);
 };
 
 #endif // TASKBAR_H

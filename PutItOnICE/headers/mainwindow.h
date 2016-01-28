@@ -4,7 +4,9 @@
 #include <QMainWindow>
 
 #include "headers/taskbar.h"
+#include "headers/mainmenu.h"
 #include "headers/icemdiarea.h"
+#include "headers/icemdisubwindow.h"
 
 class MdiChild;
 class QAction;
@@ -31,7 +33,10 @@ protected:
     void resizeEvent(QResizeEvent* event);
 
 private slots:
-    void on_actionExit_triggered();
+    void slot_on_actionExit_triggered();
+
+public slots:
+    void slot_on_mainMenuButtonHasBeenClicked(bool checkedState);
 
 private:
     void readSettings();
@@ -40,6 +45,9 @@ private:
     Ui::MainWindow *ui;
 
     TaskBar *taskBar;
+    MainMenu *mainMenu;
+
+    IceMdiSubWindow *mainMenuSubWindow;
 
     IceMdiArea *mdiArea;
     QSignalMapper *windowMapper;

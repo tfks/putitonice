@@ -3,5 +3,8 @@
         <file alias="mainmenubutton_p">Graphics/MainMenuButton_p.png</file>
         <file alias="mainmenubutton_h">Graphics/MainMenuButton_h.png</file>
         <file alias="mainmenubutton">Graphics/MainMenuButton.png</file>
+        <file alias="mainmenubutton_1">Graphics/MainMenuButton_1.png</file>
+        <file alias="mainmenubutton_1_h">Graphics/MainMenuButton_1_h.png</file>
+        <file alias="mainmenubutton_1_p">Graphics/MainMenuButton_1_p.png</file>
     </qresource>
 </RCC>

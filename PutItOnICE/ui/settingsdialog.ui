@@ -17,6 +17,21 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="styleSheet">
@@ -39,8 +54,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>628</width>
-        <height>468</height>
+        <width>636</width>
+        <height>476</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -73,7 +88,9 @@ background-color: #fff;</string>
           <item>
            <widget class="QListView" name="listView">
             <property name="styleSheet">
-             <string notr="true"/>
+             <string notr="true">QListView {
+	background: linear-gradient(#eee, #fff);
+}</string>
             </property>
            </widget>
           </item>
@@ -109,7 +126,9 @@ background-color: #fff;</string>
           <item>
            <widget class="QListView" name="listView_2">
             <property name="styleSheet">
-             <string notr="true"/>
+             <string notr="true">QListView {
+	background: linear-gradient(#eee, #fff);
+}</string>
             </property>
            </widget>
           </item>
@@ -151,7 +170,9 @@ background-color: #fff;</string>
           <item>
            <widget class="QListView" name="listView_3">
             <property name="styleSheet">
-             <string notr="true"/>
+             <string notr="true">QListView {
+	background: linear-gradient(#eee, #fff);
+}</string>
             </property>
            </widget>
           </item>

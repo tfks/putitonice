@@ -67,6 +67,27 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->taskBar = new TaskBar(mdiArea);
 
+    this->mainMenu = new MainMenu(mdiArea);
+    //this->mainMenu->setMainWidget(this);
+    //this->mainMenu->setSizeGripEnabled(true);
+
+    this->mainMenuSubWindow = new IceMdiSubWindow(this->mdiArea);
+
+    this->mainMenuSubWindow->setGeometry(100, 100, 300, 500);
+    this->mainMenuSubWindow->setWidget(this->mainMenu);
+    this->mainMenuSubWindow->setAttribute(Qt::WA_DeleteOnClose);
+    this->mainMenuSubWindow->setOption(QMdiSubWindow::RubberBandMove);
+    this->mainMenuSubWindow->setOption(QMdiSubWindow::RubberBandResize);
+    this->mainMenuSubWindow->setOption(QMdiSubWindow::AllowOutsideAreaHorizontally);
+    this->mainMenuSubWindow->setOption(QMdiSubWindow::AllowOutsideAreaVertically);
+
+
+    this->mdiArea->addSubWindow(this->mainMenuSubWindow);
+    this->mainMenuSubWindow->setHidden(true);
+
+    this->connect(this->taskBar, SIGNAL(signal_mainMenuButtonHasBeenClicked(bool)),
+                  this, SLOT(slot_on_mainMenuButtonHasBeenClicked(bool)));
+
     this->readSettings();
 
     this->setUnifiedTitleAndToolBarOnMac(true);
@@ -77,6 +98,10 @@ MainWindow::~MainWindow()
 {
 
     delete this->windowMapper;
+
+    //delete this->mainMenu;
+
+    //delete this->mainMenuSubWindow;
 
     delete this->taskBar;
 
@@ -104,9 +129,19 @@ void MainWindow::writeSettings()
     settings.setValue("size", size());
 }
 
-void MainWindow::on_actionExit_triggered()
+void MainWindow::slot_on_actionExit_triggered()
 {
     this->close();
+}
+
+void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
+{
+    if (checkedState == true) {
+        this->mainMenuSubWindow->show();
+    }
+    else {
+        this->mainMenuSubWindow->hide();
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -132,5 +167,10 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 {
     QMainWindow::resizeEvent(event);
 
-    if (this->taskBar) this->taskBar->UpdateGeometry(this);
+    if (this->taskBar)
+    {
+        this->taskBar->UpdateGeometry(this);
+
+        //if (this->mainMenu) this->mainMenu->updatePosition(this->taskBar->getGeometry());
+    }
 }

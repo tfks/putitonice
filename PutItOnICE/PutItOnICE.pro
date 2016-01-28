@@ -15,14 +15,17 @@ TEMPLATE = app
 SOURCES += src/main.cpp\
            src/mainwindow.cpp \
            src/taskbar.cpp \
-    src/settingsdialog.cpp
+           src/settingsdialog.cpp \
+           src/mainmenu.cpp
 
 HEADERS  += headers/mainwindow.h \
             headers/taskbar.h \
-    headers/settingsdialog.h
+            headers/settingsdialog.h \
+            headers/mainmenu.h
 
 FORMS    += ui/mainwindow.ui \
-    ui/settingsdialog.ui
+            ui/settingsdialog.ui \
+            ui/mainmenu.ui
 
 RESOURCES += \
     mainwindow.qrc
