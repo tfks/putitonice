@@ -7,9 +7,7 @@ MainMenu::MainMenu(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setWindowFlags(Qt::SubWindow);
-
-
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 }
 
 MainMenu::~MainMenu()
@@ -29,8 +27,19 @@ void MainMenu::setMainWidget(QMainWindow *widget)
 
 void MainMenu::updatePosition(QRect taskBarGeometry)
 {
-    this->setGeometry(taskBarGeometry.left(),
+    /*this->setGeometry(taskBarGeometry.left(),
                       taskBarGeometry.top() + this->height(),
                       taskBarGeometry.left() + this->width(),
-                      taskBarGeometry.height());
+                      taskBarGeometry.height());*/
+
+}
+
+void MainMenu::on_pushButton_2_clicked()
+{
+    emit signal_applicationExit();
+}
+
+void MainMenu::on_pushButton_clicked()
+{
+    emit signal_showSettings();
 }

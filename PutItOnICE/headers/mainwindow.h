@@ -5,6 +5,7 @@
 
 #include "headers/taskbar.h"
 #include "headers/mainmenu.h"
+#include "headers/settingsdialog.h"
 #include "headers/icemdiarea.h"
 #include "headers/icemdisubwindow.h"
 
@@ -27,6 +28,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void addWidget(QWidget *widget, bool showInitially = false);
+
 protected:
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
@@ -36,9 +39,12 @@ private slots:
     void slot_on_actionExit_triggered();
 
 public slots:
+    void slot_on_showSettings_triggered();
+    void slot_on_applicationExit_triggered();
     void slot_on_mainMenuButtonHasBeenClicked(bool checkedState);
 
 private:
+    IceMdiSubWindow *getSubWindowByWidget(QWidget *widget);
     void readSettings();
     void writeSettings();
 
@@ -47,12 +53,16 @@ private:
     TaskBar *taskBar;
     MainMenu *mainMenu;
 
-    IceMdiSubWindow *mainMenuSubWindow;
+    //SettingsDialog * settingsDialog;
+
+    //IceMdiSubWindow *mainMenuSubWindow;
 
     IceMdiArea *mdiArea;
     QSignalMapper *windowMapper;
 
     QMdiSubWindow *testSubWindow;
+
+    //QList<QMdiSubWindow> subWindowList;
 
     QDialog *testWidget;
 };

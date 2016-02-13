@@ -16,8 +16,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->mdiArea = new IceMdiArea(this);
 
+
     QString homeLocation = QStandardPaths::locate(QStandardPaths::HomeLocation, QString(), QStandardPaths::LocateDirectory);
-    QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
+    //QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
+    QString path = homeLocation + ".local/share/wallpapers/98258-clear_skies1920x1200.jpg";
 
     this->mdiArea->setBackgroundImage(path);
 
@@ -47,43 +49,21 @@ MainWindow::MainWindow(QWidget *parent) :
     l->addWidget(b);
 
 
-    this->testWidget->show();
+    this->addWidget(testWidget);
 
+    IceMdiSubWindow *testSubWindow = this->getSubWindowByWidget(testWidget);
 
+    if (testSubWindow)
+    {
+        //testSubWindow->setFixedSize(200,100);
+        testSubWindow->setGeometry(10, 10, 400, 400);
 
-    IceMdiSubWindow *testSubWindow = new IceMdiSubWindow(this->mdiArea);
-    //testSubWindow->setFixedSize(200,100);
-    testSubWindow->setGeometry(10, 10, 400, 400);
-    testSubWindow->setWidget(this->testWidget);
-    testSubWindow->setAttribute(Qt::WA_DeleteOnClose);
-    testSubWindow->setOption(QMdiSubWindow::RubberBandMove);
-    testSubWindow->setOption(QMdiSubWindow::RubberBandResize);
-    testSubWindow->setOption(QMdiSubWindow::AllowOutsideAreaHorizontally);
-    testSubWindow->setOption(QMdiSubWindow::AllowOutsideAreaVertically);
-    //testSubWindow->setWindowFlags(Qt::SubWindow);
-    //testSubWindow->setSizePolicy(QSizePolicy::Expanding);
-
-    mdiArea->addSubWindow(testSubWindow);
+        testSubWindow->setWindowFlags(Qt::Window);
+        //testSubWindow->setSizePolicy(QSizePolicy::Expanding);
+        testSubWindow->show();
+    }
 
     this->taskBar = new TaskBar(mdiArea);
-
-    this->mainMenu = new MainMenu(mdiArea);
-    //this->mainMenu->setMainWidget(this);
-    //this->mainMenu->setSizeGripEnabled(true);
-
-    this->mainMenuSubWindow = new IceMdiSubWindow(this->mdiArea);
-
-    this->mainMenuSubWindow->setGeometry(100, 100, 300, 500);
-    this->mainMenuSubWindow->setWidget(this->mainMenu);
-    this->mainMenuSubWindow->setAttribute(Qt::WA_DeleteOnClose);
-    this->mainMenuSubWindow->setOption(QMdiSubWindow::RubberBandMove);
-    this->mainMenuSubWindow->setOption(QMdiSubWindow::RubberBandResize);
-    this->mainMenuSubWindow->setOption(QMdiSubWindow::AllowOutsideAreaHorizontally);
-    this->mainMenuSubWindow->setOption(QMdiSubWindow::AllowOutsideAreaVertically);
-
-
-    this->mdiArea->addSubWindow(this->mainMenuSubWindow);
-    this->mainMenuSubWindow->setHidden(true);
 
     this->connect(this->taskBar, SIGNAL(signal_mainMenuButtonHasBeenClicked(bool)),
                   this, SLOT(slot_on_mainMenuButtonHasBeenClicked(bool)));
@@ -99,15 +79,44 @@ MainWindow::~MainWindow()
 
     delete this->windowMapper;
 
-    //delete this->mainMenu;
-
-    //delete this->mainMenuSubWindow;
-
     delete this->taskBar;
 
     delete this->mdiArea;
 
     delete ui;
+}
+
+void MainWindow::addWidget(QWidget *widget, bool showInitially)
+{
+    if (!widget) return;
+
+    widget->setWindowFlags(Qt::Window);
+    //widget->setSizeGripEnabled(true);
+
+    IceMdiSubWindow *subWindowtoAdd = new IceMdiSubWindow(this->mdiArea);
+
+    //subWindowtoAdd->setFixedSize(200,100);
+    //testSubWindow->setAttribute(Qt::WA_SetWindowIcon, );
+    subWindowtoAdd->setGeometry(widget->geometry());
+    subWindowtoAdd->setWidget(widget);
+    subWindowtoAdd->setAttribute(Qt::WA_DeleteOnClose);
+    subWindowtoAdd->setOption(QMdiSubWindow::RubberBandMove);
+    subWindowtoAdd->setOption(QMdiSubWindow::RubberBandResize);
+    subWindowtoAdd->setOption(QMdiSubWindow::AllowOutsideAreaHorizontally);
+    subWindowtoAdd->setOption(QMdiSubWindow::AllowOutsideAreaVertically);
+    subWindowtoAdd->setWindowFlags(Qt::SubWindow);
+    //subWindowtoAdd->setSizePolicy(QSizePolicy::Expanding);
+
+    if (showInitially == false) subWindowtoAdd->hide();
+
+    this->mdiArea->addSubWindow(subWindowtoAdd);
+}
+
+IceMdiSubWindow *MainWindow::getSubWindowByWidget(QWidget *widget)
+{
+    if (!widget) return NULL;
+
+    return qobject_cast<IceMdiSubWindow*>(widget->parentWidget());
 }
 
 void MainWindow::readSettings()
@@ -134,13 +143,63 @@ void MainWindow::slot_on_actionExit_triggered()
     this->close();
 }
 
+void MainWindow::slot_on_showSettings_triggered()
+{
+    SettingsDialog *settingsDialog = new SettingsDialog(this);
+
+    this->addWidget(settingsDialog);
+
+    QMdiSubWindow *subWindow = this->getSubWindowByWidget(settingsDialog);
+
+    if (!subWindow) return;
+
+    subWindow->show();
+}
+
+void MainWindow::slot_on_applicationExit_triggered()
+{
+    this->close();
+}
+
 void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
 {
     if (checkedState == true) {
-        this->mainMenuSubWindow->show();
+        this->mainMenu = new MainMenu(mdiArea);
+
+        this->addWidget(this->mainMenu);
+
+        QMdiSubWindow *mainMenuSubWindow = this->getSubWindowByWidget(this->mainMenu);
+
+        mainMenuSubWindow->setGeometry(100, 100, 300, 500);
+        mainMenuSubWindow->setWidget(mainMenu);
+        mainMenuSubWindow->setAttribute(Qt::WA_DeleteOnClose);
+        mainMenuSubWindow->setWindowFlags(Qt::FramelessWindowHint);
+
+        mainMenuSubWindow->setAttribute(Qt::WA_NoSystemBackground, true);
+        mainMenuSubWindow->setAttribute(Qt::WA_TranslucentBackground, true);
+        mainMenuSubWindow->setAttribute(Qt::WA_PaintOnScreen); // not needed in Qt 5.2 and up
+
+        mainMenuSubWindow->setHidden(true);
+
+        this->connect(this->mainMenu, SIGNAL(signal_showSettings()),
+                      this, SLOT(slot_on_showSettings_triggered()));
+
+        this->connect(this->mainMenu, SIGNAL(signal_applicationExit()),
+                      this, SLOT(slot_on_applicationExit_triggered()));
+
+        mainMenuSubWindow->setGeometry(0,
+                                       this->height() - (mainMenuSubWindow->height() + this->taskBar->height()),
+                                       mainMenuSubWindow->width(),
+                                       mainMenuSubWindow->height());
+
+        mainMenuSubWindow->show();
     }
     else {
-        this->mainMenuSubWindow->hide();
+        QMdiSubWindow *mainMenuSubWindow = this->getSubWindowByWidget(this->mainMenu);
+
+        if (!mainMenuSubWindow) return;
+
+        mainMenuSubWindow->close();
     }
 }
 

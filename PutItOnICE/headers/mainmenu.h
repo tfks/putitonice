@@ -21,6 +21,15 @@ public:
 
     void updatePosition(QRect taskBarGeometry);
 
+signals:
+    void signal_showSettings();
+    void signal_applicationExit();
+
+private slots:
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::MainMenu *ui;
 
