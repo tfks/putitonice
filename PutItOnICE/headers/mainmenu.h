@@ -21,7 +21,11 @@ public:
 
     void updatePosition(QRect taskBarGeometry);
 
+protected:
+        virtual void paintEvent(QPaintEvent *paintEvent);
+
 signals:
+    void signal_closeAfterUserAction(QWidget *widget);
     void signal_showSettings();
     void signal_applicationExit();
 

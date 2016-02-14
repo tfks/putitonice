@@ -99,7 +99,7 @@ void MainWindow::addWidget(QWidget *widget, bool showInitially)
     //testSubWindow->setAttribute(Qt::WA_SetWindowIcon, );
     subWindowtoAdd->setGeometry(widget->geometry());
     subWindowtoAdd->setWidget(widget);
-    subWindowtoAdd->setAttribute(Qt::WA_DeleteOnClose);
+    //subWindowtoAdd->setAttribute(Qt::WA_DeleteOnClose);
     subWindowtoAdd->setOption(QMdiSubWindow::RubberBandMove);
     subWindowtoAdd->setOption(QMdiSubWindow::RubberBandResize);
     subWindowtoAdd->setOption(QMdiSubWindow::AllowOutsideAreaHorizontally);
@@ -170,16 +170,8 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
 
         QMdiSubWindow *mainMenuSubWindow = this->getSubWindowByWidget(this->mainMenu);
 
-        mainMenuSubWindow->setGeometry(100, 100, 300, 500);
+        mainMenuSubWindow->setGeometry(this->mainMenu->geometry());
         mainMenuSubWindow->setWidget(mainMenu);
-        mainMenuSubWindow->setAttribute(Qt::WA_DeleteOnClose);
-        mainMenuSubWindow->setWindowFlags(Qt::FramelessWindowHint);
-
-        mainMenuSubWindow->setAttribute(Qt::WA_NoSystemBackground, true);
-        mainMenuSubWindow->setAttribute(Qt::WA_TranslucentBackground, true);
-        mainMenuSubWindow->setAttribute(Qt::WA_PaintOnScreen); // not needed in Qt 5.2 and up
-
-        mainMenuSubWindow->setHidden(true);
 
         this->connect(this->mainMenu, SIGNAL(signal_showSettings()),
                       this, SLOT(slot_on_showSettings_triggered()));
@@ -187,12 +179,16 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
         this->connect(this->mainMenu, SIGNAL(signal_applicationExit()),
                       this, SLOT(slot_on_applicationExit_triggered()));
 
+        this->connect(this->mainMenu, SIGNAL(signal_closeAfterUserAction(QWidget*)),
+                      this, SLOT(slot_on_closeAfterUserAction(QWidget*)));
+
         mainMenuSubWindow->setGeometry(0,
                                        this->height() - (mainMenuSubWindow->height() + this->taskBar->height()),
                                        mainMenuSubWindow->width(),
                                        mainMenuSubWindow->height());
 
         mainMenuSubWindow->show();
+
     }
     else {
         QMdiSubWindow *mainMenuSubWindow = this->getSubWindowByWidget(this->mainMenu);
@@ -200,6 +196,19 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
         if (!mainMenuSubWindow) return;
 
         mainMenuSubWindow->close();
+    }
+}
+
+void MainWindow::slot_on_closeAfterUserAction(QWidget *widget)
+{
+    if (widget) {
+        IceMdiSubWindow *subWindow = this->getSubWindowByWidget(widget);
+
+        if (subWindow) {
+            subWindow->close();
+
+            this->taskBar->setMainMenuButtonClickedState(false);
+        }
     }
 }
 

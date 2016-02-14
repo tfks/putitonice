@@ -22,9 +22,9 @@ void IceMdiArea::setBackgroundImage(QString path)
 
 void IceMdiArea::paintEvent(QPaintEvent *event)
 {
-    if (!this->m_pixmapOriginal) return;
-
     QMdiArea::paintEvent(event);
+
+    if (!this->m_pixmapOriginal) return;
 
     QPainter painter(viewport());
 

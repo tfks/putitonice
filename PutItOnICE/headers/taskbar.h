@@ -17,6 +17,7 @@ public:
 
     QRect getGeometry();
     void updatePosition(QRect taskBarGeometry);
+    void setMainMenuButtonClickedState(bool checkedState);
 
 signals:
     void signal_mainMenuButtonHasBeenClicked(bool checkedState);

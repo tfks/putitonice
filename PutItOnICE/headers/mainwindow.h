@@ -42,6 +42,7 @@ public slots:
     void slot_on_showSettings_triggered();
     void slot_on_applicationExit_triggered();
     void slot_on_mainMenuButtonHasBeenClicked(bool checkedState);
+    void slot_on_closeAfterUserAction(QWidget *widget);
 
 private:
     IceMdiSubWindow *getSubWindowByWidget(QWidget *widget);
