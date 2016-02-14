@@ -18,8 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     QString homeLocation = QStandardPaths::locate(QStandardPaths::HomeLocation, QString(), QStandardPaths::LocateDirectory);
-    //QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
-    QString path = homeLocation + ".local/share/wallpapers/98258-clear_skies1920x1200.jpg";
+    QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
+    //QString path = homeLocation + ".local/share/wallpapers/98258-clear_skies1920x1200.jpg";
 
     this->mdiArea->setBackgroundImage(path);
 
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     l->addWidget(b);
 
 
-    this->addWidget(testWidget);
+    this->addWidgetToMdiArea(testWidget);
 
     IceMdiSubWindow *testSubWindow = this->getSubWindowByWidget(testWidget);
 
@@ -86,20 +86,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addWidget(QWidget *widget, bool showInitially)
+void MainWindow::addWidgetToMdiArea(QWidget *widget, bool showInitially)
 {
     if (!widget) return;
 
     widget->setWindowFlags(Qt::Window);
-    //widget->setSizeGripEnabled(true);
 
     IceMdiSubWindow *subWindowtoAdd = new IceMdiSubWindow(this->mdiArea);
 
     //subWindowtoAdd->setFixedSize(200,100);
     //testSubWindow->setAttribute(Qt::WA_SetWindowIcon, );
     subWindowtoAdd->setGeometry(widget->geometry());
+
     subWindowtoAdd->setWidget(widget);
-    //subWindowtoAdd->setAttribute(Qt::WA_DeleteOnClose);
+
+    subWindowtoAdd->setAttribute(Qt::WA_DeleteOnClose);
     subWindowtoAdd->setOption(QMdiSubWindow::RubberBandMove);
     subWindowtoAdd->setOption(QMdiSubWindow::RubberBandResize);
     subWindowtoAdd->setOption(QMdiSubWindow::AllowOutsideAreaHorizontally);
@@ -107,9 +108,11 @@ void MainWindow::addWidget(QWidget *widget, bool showInitially)
     subWindowtoAdd->setWindowFlags(Qt::SubWindow);
     //subWindowtoAdd->setSizePolicy(QSizePolicy::Expanding);
 
-    if (showInitially == false) subWindowtoAdd->hide();
-
     this->mdiArea->addSubWindow(subWindowtoAdd);
+
+    if (showInitially == true) {
+        subWindowtoAdd->show();
+    }
 }
 
 IceMdiSubWindow *MainWindow::getSubWindowByWidget(QWidget *widget)
@@ -147,13 +150,7 @@ void MainWindow::slot_on_showSettings_triggered()
 {
     SettingsDialog *settingsDialog = new SettingsDialog(this);
 
-    this->addWidget(settingsDialog);
-
-    QMdiSubWindow *subWindow = this->getSubWindowByWidget(settingsDialog);
-
-    if (!subWindow) return;
-
-    subWindow->show();
+    this->addWidgetToMdiArea(settingsDialog, true);
 }
 
 void MainWindow::slot_on_applicationExit_triggered()
@@ -166,12 +163,13 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
     if (checkedState == true) {
         this->mainMenu = new MainMenu(mdiArea);
 
-        this->addWidget(this->mainMenu);
+        this->addWidgetToMdiArea(this->mainMenu, true);
 
         QMdiSubWindow *mainMenuSubWindow = this->getSubWindowByWidget(this->mainMenu);
 
+        mainMenuSubWindow->setObjectName("MainMenu");
+
         mainMenuSubWindow->setGeometry(this->mainMenu->geometry());
-        mainMenuSubWindow->setWidget(mainMenu);
 
         this->connect(this->mainMenu, SIGNAL(signal_showSettings()),
                       this, SLOT(slot_on_showSettings_triggered()));
@@ -187,7 +185,20 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
                                        mainMenuSubWindow->width(),
                                        mainMenuSubWindow->height());
 
-        mainMenuSubWindow->show();
+        mainMenuSubWindow->setStyleSheet("MainMenu { background-color: #345b94; }");
+        mainMenuSubWindow->setBackgroundRole(QPalette::Window);
+
+        mainMenuSubWindow->setWindowFlags(Qt::FramelessWindowHint);
+
+        QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect();
+
+        opacityEffect->setOpacity(0.9);
+
+        mainMenuSubWindow->setAutoFillBackground(true);
+        mainMenuSubWindow->setGraphicsEffect(opacityEffect);
+
+        //mainMenuSubWindow->show();
+
 
     }
     else {
@@ -195,6 +206,7 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
 
         if (!mainMenuSubWindow) return;
 
+        this->mdiArea->removeSubWindow(mainMenuSubWindow);
         mainMenuSubWindow->close();
     }
 }

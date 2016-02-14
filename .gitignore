@@ -13,6 +13,7 @@
 # Qt-es
 
 /lib
+/Build
 *.so
 *.so.*
 /.qmake.cache

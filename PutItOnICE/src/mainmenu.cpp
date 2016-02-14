@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QGraphicsEffect>
 
 #include "headers/mainmenu.h"
 #include "ui_mainmenu.h"
@@ -13,25 +14,15 @@ MainMenu::MainMenu(QWidget *parent) :
 
     this->setGeometry(100, 100, 300, 500);
 
-    this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setAttribute(Qt::WA_TranslucentBackground, true);
-    this->setAttribute(Qt::WA_PaintOnScreen);
+    //this->setAttribute(Qt::WA_DeleteOnClose);
+    //this->setAttribute(Qt::WA_TranslucentBackground, true);
+    //this->setAttribute(Qt::WA_PaintOnScreen);
 }
 
 MainMenu::~MainMenu()
 {
-    //delete this->mainWidget;
-
     delete ui;
 }
-/*
-void MainMenu::setMainWidget(QMainWindow *widget)
-{
-    if (widget == NULL) return;
-
-    this->mainWidget = widget;
-}
-*/
 
 void MainMenu::updatePosition(QRect taskBarGeometry)
 {
@@ -45,13 +36,22 @@ void MainMenu::updatePosition(QRect taskBarGeometry)
 
 void MainMenu::paintEvent(QPaintEvent *paintEvent)
 {
-    Q_UNUSED(paintEvent);
+    //Q_UNUSED(paintEvent);
+    QWidget::paintEvent(paintEvent);
 
-    QPainter painter(this);
+    /*QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(255, 0, 0, 127));
+    painter.setBrush(QColor(255, 0, 0, 127));*/
+
+    QStyleOption styleOption;
+
+    styleOption.init(this);
+
+    QPainter painter(this);
+
+    style()->drawPrimitive(QStyle::PE_Widget, &styleOption, &painter, this);
 
 }
 

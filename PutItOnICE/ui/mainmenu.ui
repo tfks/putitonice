@@ -17,34 +17,35 @@
    <double>0.500000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
-  </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="label">
-     <property name="styleSheet">
-      <string notr="true">font-size: 30px; color: #555; margin-bottom: 30px;</string>
-     </property>
-     <property name="text">
-      <string>Put it on ICE...</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="pushButton">
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
+   <string notr="true">QPushButton {
 	text-align: left; 
 	margin-left: 30px; 
 	padding: 10px;
 	border: 1px solid rgb(85, 170, 255); 
 	border-radius: 4px;
 	cursor: pointer;
+	color: white;
 }
 
 QPushButton:hover {
 	background-color: rgb(85, 170, 255);
 }</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">font-size: 30px; color: #555; margin-bottom: 30px; color: white;</string>
+     </property>
+     <property name="text">
+      <string>PutItOnICE...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pushButton">
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>Settings...</string>

@@ -28,7 +28,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void addWidget(QWidget *widget, bool showInitially = false);
+    void addWidgetToMdiArea(QWidget *widget, bool showInitially = false);
 
 protected:
     void closeEvent(QCloseEvent *event);

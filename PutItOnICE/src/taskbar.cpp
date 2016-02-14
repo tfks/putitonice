@@ -48,7 +48,7 @@ TaskBar::~TaskBar()
 
 void TaskBar::resizeEvent(QResizeEvent* event)
 {
-    TaskBar::resizeEvent(event);
+    QWidget::resizeEvent(event);
 
 
 }

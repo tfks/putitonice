@@ -6,14 +6,14 @@
 
 QT       -= gui
 
-TARGET = $$OUT_PWD/../PutItOnICE/lib/onicecomm
+TARGET = $$DESTDIR/PutItOnICE/lib/onicecomm
 TEMPLATE = lib
 
 DEFINES += PUTITONICE_LIB_ICE_LIBRARY
 
 SOURCES += src/putitonice_lib_ice.cpp
 
-HEADERS += headers/putitonice_lib_ice.h\
+HEADERS += headers/putitonice_lib_ice.h \
            headers/putitonice_lib_ice_global.h
 
 osx: CONFIG -= no-pkg-config
@@ -28,8 +28,11 @@ unix: PKGCONFIG += nice
 
 
 unix {
-    target.path = /usr/lib
+    #target.path = /usr/lib
+    target.path = $$DESTDIR/PutItOnICE/lib
     INSTALLS += target
 }
 
 QMAKE_CXXFLAGS += -std=c++11
+
+include(../DestDir.pri)

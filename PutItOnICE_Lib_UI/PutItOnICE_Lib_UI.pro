@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = $$OUT_PWD/../PutItOnICE/lib/oniceui
+TARGET = $$DESTDIR/PutItOnICE/lib/oniceui
 TEMPLATE = lib
 
 DEFINES += PUTITONICE_LIB_UI_LIBRARY
@@ -23,9 +23,14 @@ HEADERS += headers/putitonice_lib_ui.h \
            headers/backgrounddrawstyleflags.h \
            headers/icemdisubwindow.h
 
+include(../DestDir.pri)
+
 unix {
-    target.path = /usr/lib
+    #target.path = /usr/lib
+    target.path = $$DESTDIR/PutItOnICE/lib
     INSTALLS += target
 }
 
 QMAKE_CXXFLAGS += -std=c++11
+
+

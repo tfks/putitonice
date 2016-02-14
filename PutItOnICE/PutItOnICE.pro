@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = PutItOnICE
+TARGET = PutItOnICE/putitonice
 TEMPLATE = app
 
 
@@ -30,20 +30,28 @@ FORMS    += ui/mainwindow.ui \
 RESOURCES += \
     mainwindow.qrc
 
+include(../DestDir.pri)
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -lonicecommon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -lonicecommon
-else:unix: LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -lonicecommon
+win32:CONFIG(release, debug|release): LIBS += -L$$DESTDIR/PutItOnICE/lib/ -lonicecommon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$DESTDIR/PutItOnICE/lib/ -lonicecommon
+else:unix: LIBS += -L$$DESTDIR/PutItOnICE/lib/ -lonicecommon
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -lonicecomm
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -lonicecomm
-else:unix: LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -lonicecommon
+win32:CONFIG(release, debug|release): LIBS += -L$$DESTDIR/PutItOnICE/lib/ -lonicecomm
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$DESTDIR/PutItOnICE/lib/ -lonicecomm
+else:unix: LIBS += -L$$DESTDIR/PutItOnICE/lib/ -lonicecommon
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -loniceui
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -loniceui
-else:unix: LIBS += -L$$OUT_PWD/../PutItOnICE/lib/ -loniceui
+win32:CONFIG(release, debug|release): LIBS += -L$$DESTDIR/PutItOnICE/lib/ -loniceui
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$DESTDIR/PutItOnICE/lib/ -loniceui
+else:unix: LIBS += -L$$DESTDIR/PutItOnICE/lib/ -loniceui
 
 INCLUDEPATH += $$PWD/../PutItOnICE_Lib_UI
 DEPENDPATH += $$PWD/../PutItOnICE_Lib_UI
 
 QMAKE_CXXFLAGS += -std=c++11
+
+
+unix {
+    #target.path = /usr/lib
+    target.path = $$DESTDIR/PutItOnICE
+    INSTALLS += target
+}
