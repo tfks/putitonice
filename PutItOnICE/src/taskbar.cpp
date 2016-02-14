@@ -80,6 +80,16 @@ void TaskBar::UpdateGeometry(int x, int y, int w, int h)
                                       buttonRect.height());
 }
 
+void TaskBar::updatePosition(QRect taskBarGeometry)
+{
+    Q_UNUSED(taskBarGeometry);
+}
+
+void TaskBar::setMainMenuButtonClickedState(bool checkedState)
+{
+    this->mainMenuButton->setChecked(checkedState);
+}
+
 void TaskBar::setMainWidget(QMainWindow *widget)
 {
     if (widget == NULL) return;
