@@ -18,8 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     QString homeLocation = QStandardPaths::locate(QStandardPaths::HomeLocation, QString(), QStandardPaths::LocateDirectory);
-    QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
-    //QString path = homeLocation + ".local/share/wallpapers/98258-clear_skies1920x1200.jpg";
+    //QString path = homeLocation + ".kde/share/wallpapers/120175-Wait-for-it.jpg";
+    QString path = homeLocation + ".local/share/wallpapers/98258-clear_skies1920x1200.jpg";
 
     this->mdiArea->setBackgroundImage(path);
 
@@ -185,7 +185,7 @@ void MainWindow::slot_on_mainMenuButtonHasBeenClicked(bool checkedState)
                                        mainMenuSubWindow->width(),
                                        mainMenuSubWindow->height());
 
-        mainMenuSubWindow->setStyleSheet("MainMenu { background-color: #345b94; }");
+        //mainMenuSubWindow->setStyleSheet("MainMenu { background-color: #345b94; }");
         mainMenuSubWindow->setBackgroundRole(QPalette::Window);
 
         mainMenuSubWindow->setWindowFlags(Qt::FramelessWindowHint);

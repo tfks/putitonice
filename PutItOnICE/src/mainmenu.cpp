@@ -14,6 +14,11 @@ MainMenu::MainMenu(QWidget *parent) :
 
     this->setGeometry(100, 100, 300, 500);
 
+    this->setStyleSheet("");
+
+    this->ui->pushButton->setBackgroundRole(QPalette::Link);
+    this->ui->pushButton_2->setBackgroundRole(QPalette::Link);
+
     //this->setAttribute(Qt::WA_DeleteOnClose);
     //this->setAttribute(Qt::WA_TranslucentBackground, true);
     //this->setAttribute(Qt::WA_PaintOnScreen);
@@ -57,8 +62,8 @@ void MainMenu::paintEvent(QPaintEvent *paintEvent)
 
 void MainMenu::on_pushButton_2_clicked()
 {
-    emit signal_applicationExit();    
     emit signal_closeAfterUserAction(this);
+    emit signal_applicationExit();
 }
 
 void MainMenu::on_pushButton_clicked()
